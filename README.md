@@ -67,7 +67,7 @@ The script uses **base R only**; no additional packages are required.
 
 3. Review the plots, printed model comparisons and the `forecast_table` object containing 24 SARIMA forecast months.
 
-This script is an updated version of my original course project. It uses the same models, with improvements to file paths, data validation and forecast dates. **The adapted script has not yet been executed and verified in this environment**; the original analysis and outputs are preserved in the PDF report.
+This script is an updated version of my original course project. It uses the same models, with improvements to file paths, data validation and forecast dates. The updated script was successfully tested in RStudio, reproducing the original model results and generating the expected graphs. The original analysis and outputs are preserved in the PDF report.
 
 ## Limitations and next steps
 
