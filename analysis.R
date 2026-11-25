@@ -4,7 +4,7 @@
 # Uses base R only. Run from the repository root: source("analysis.R")
 
 # 1. Load and validate the original monthly FRED series
-sales_data <- read.csv("data/5550RetailData.csv", stringsAsFactors = FALSE)
+sales_data <- read.csv("5550RetailData.csv", stringsAsFactors = FALSE)
 stopifnot(all(c("observation_date", "MRTSSM4541USN") %in% names(sales_data)))
 sales_data$observation_date <- as.Date(sales_data$observation_date)
 sales_data <- sales_data[order(sales_data$observation_date), ]
