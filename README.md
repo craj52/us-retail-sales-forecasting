@@ -20,7 +20,7 @@ Retail sales reflect changing consumer habits as well as predictable seasonal pa
 - **Source:** [Federal Reserve Economic Data (FRED)](https://fred.stlouisfed.org/series/MRTSSM4541USN), series `MRTSSM4541USN`
 - **Measure:** U.S. retail sales for electronic shopping and mail-order houses, millions of dollars
 - **Frequency:** Monthly; 409 observations; January 1992–January 2026
-- **Included file:** [`data/5550RetailData.csv`](data/5550RetailData.csv) - historical extract used in the original project (not a live feed)
+- **Included file:** [`5550RetailData.csv`](5550RetailData.csv) - historical extract used in the original project (not a live feed)
 
 The dataset has a date column (`observation_date`) and sales column (`MRTSSM4541USN`). The analysis uses the original historical extract rather than automatically refreshing revised source values.
 
