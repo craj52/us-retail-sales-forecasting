@@ -2,25 +2,25 @@
 
 **Time-series analysis in R | Independent modeling comparison | April 2026**
 
-## At a glance
+## Overview
 
 This project investigates **monthly U.S. retail sales for electronic shopping and mail-order houses** using 409 observations from **January 1992 through January 2026**. I explored the pronounced trend and annual seasonality in the data, then developed two approaches to forecast the next 24 months:
 
 1. **Trend/seasonal decomposition + ARMA** on the remaining variation.
 2. **Seasonal ARIMA (SARIMA)** directly on the log-transformed series.
 
-The main goal was not just to generate forecasts, but to reason through the time-series structure, examine diagnostic evidence, and justify a modeling choice.
+The main goal was not just to generate forecasts, but to reason through the time-series structure, examine diagnostic evidence and justify a modeling choice.
 
 ## Why this question?
 
-Retail sales reflect changing consumer habits as well as predictable seasonal patterns. A series with long-run growth, changing variance, and holiday-related peaks presents a useful forecasting challenge: an apparently good fit can still leave temporal structure unexplained.
+Retail sales reflect changing consumer habits as well as predictable seasonal patterns. A series with long-run growth, changing variance and holiday-related peaks presents a useful forecasting challenge: an apparently good fit can still leave temporal structure unexplained.
 
 ## Data
 
 - **Source:** [Federal Reserve Economic Data (FRED)](https://fred.stlouisfed.org/series/MRTSSM4541USN), series `MRTSSM4541USN`
 - **Measure:** U.S. retail sales for electronic shopping and mail-order houses, millions of dollars
 - **Frequency:** Monthly; 409 observations; January 1992–January 2026
-- **Included file:** [`data/5550RetailData.csv`](data/5550RetailData.csv) — historical extract used in the original project (not a live feed)
+- **Included file:** [`data/5550RetailData.csv`](data/5550RetailData.csv) - historical extract used in the original project (not a live feed)
 
 The dataset has a date column (`observation_date`) and sales column (`MRTSSM4541USN`). The analysis uses the original historical extract rather than automatically refreshing revised source values.
 
@@ -28,15 +28,15 @@ The dataset has a date column (`observation_date`) and sales column (`MRTSSM4541
 
 ### 1. Explore and transform
 
-I plotted the series, examined seasonality and autocorrelation, and used a **log transformation** to address the increasing variation as sales levels grew.
+I plotted the series, examined seasonality and autocorrelation and used a **log transformation** to address the increasing variation as sales levels grew.
 
 ### 2. Trend/seasonal decomposition + ARMA
 
-I decomposed the logged series into trend, seasonal, and residual components. An initial **AR(1)** model left seasonal autocorrelation, so I fitted an **ARMA(1,0) × (0,0,1)₁₂** model to the residuals, then examined the residual ACF/PACF. For forecasting, the original analysis extrapolated the final estimated trend level and repeated the seasonal pattern while forecasting the ARMA residual component.
+I decomposed the logged series into trend, seasonal and residual components. An initial **AR(1)** model left seasonal autocorrelation, so I fitted an **ARMA(1,0) × (0,0,1)₁₂** model to the residuals, then examined the residual ACF/PACF. For forecasting, the original analysis used the final estimated trend level, repeated the seasonal pattern and predicted the remaining fluctuations using an ARMA model.
 
 ### 3. SARIMA
 
-I evaluated ordinary and seasonal differencing, compared candidate models using AIC, and selected **SARIMA(0,1,1) × (0,1,1)₁₂** on logged sales. I checked residual dependence and generated **24-month forecasts** with nominal 95% intervals on the original scale.
+I evaluated ordinary and seasonal differencing, compared candidate models using AIC and selected **SARIMA(0,1,1) × (0,1,1)₁₂** on logged sales. I checked residual dependence and generated **24-month forecasts** with 95% prediction intervals expressed in the original units.
 
 ## Key findings
 
@@ -46,7 +46,7 @@ I evaluated ordinary and seasonal differencing, compared candidate models using 
 - Residual diagnostic plots in the report suggested the selected models captured most of the remaining serial structure.
 - **SARIMA was preferred in the final report** for its more compact modeling framework and comparable diagnostics.
 
-**Interpretation note:** AICs calculated for models fitted to different transformed/component series are **not a direct head-to-head test** of the two overall forecasting approaches. The original report includes that comparison; the stronger supported rationale is parsimony and diagnostic evidence within each model family. This project did **not** use a separate holdout set or rolling-origin backtest, so its future forecast accuracy is not established.
+**Interpretation note:** AICs calculated for models fitted to different transformed/component series are **not a direct head-to-head test** of the two overall forecasting approaches. The original report compares both approaches. The simpler SARIMA model was selected because it provided a good fit without unnecessary complexity and the diagnostic results supported its suitability. However, the analysis did not test how accurately the models would predict new data, so their future forecasting accuracy remains uncertain.
 
 ## Repository contents
 
@@ -60,7 +60,7 @@ us-retail-sales-forecasting/
     └── final_report.pdf      # Complete eight-page original report
 ```
 
-## Reproduce the analysis
+## Reproducability 
 
 The script uses **base R only**; no additional packages are required.
 
@@ -71,15 +71,14 @@ The script uses **base R only**; no additional packages are required.
    source("analysis.R")
    ```
 
-3. Review the plots, printed model comparisons, and the `forecast_table` object containing 24 SARIMA forecast months.
+3. Review the plots, printed model comparisons and the `forecast_table` object containing 24 SARIMA forecast months.
 
-The source script is an organized adaptation of my original course project. It keeps the original model specifications while improving relative file paths, input checks, and explicit forecast time indices. **The adapted script has not yet been executed and verified in this environment**; the original analysis and outputs are preserved in the PDF report.
+This script is an updated version of my original course project. It uses the same models, with improvements to file paths, data validation and forecast dates. **The adapted script has not yet been executed and verified in this environment**; the original analysis and outputs are preserved in the PDF report.
 
 ## Limitations and next steps
 
-- No out-of-sample backtesting was performed; rolling-origin validation would be an important next step.
-- The decomposition forecast holds the final estimated trend level constant and repeats seasonal effects; its displayed uncertainty does not account for estimating or extrapolating those components.
-- Back-transforming forecasts from a log scale yields median forecasts on the original scale unless a bias adjustment is applied.
+- The models were evaluated using their fit to historical data, but their accuracy in predicting future sales was not tested.
+- The decomposition forecast keeps the final estimated trend level constant and repeats the seasonal patterns. Its prediction intervals do not fully account for uncertainty in those estimates.
 - External shocks and structural shifts, such as the pandemic-era retail changes, may not be captured by a fixed-coefficient seasonal model.
 
 ## Author
