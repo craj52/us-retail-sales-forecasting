@@ -50,15 +50,9 @@ I evaluated ordinary and seasonal differencing, compared candidate models using 
 
 ## Repository contents
 
-```text
-us-retail-sales-forecasting/
-├── README.md
-├── analysis.R                # Organized base-R analysis and forecasts
-├── data/
-│   └── 5550RetailData.csv    # Original 409-row historical extract
-└── report/
-    └── final_report.pdf      # Complete eight-page original report
-```
+- [`analysis.R`](analysis.R) — R code for the statistical analysis and forecasts
+- [`5550RetailData.csv`](5550RetailData.csv) — Original historical dataset
+- [`final_report.pdf`](final_report.pdf) — Complete eight-page project report
 
 ## Reproducability 
 
